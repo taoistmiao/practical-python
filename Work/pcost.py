@@ -2,6 +2,7 @@
 #
 # Exercise 1.27
 import csv
+import sys
 
 def portfolio_cost(filename):
 
@@ -18,6 +19,11 @@ def portfolio_cost(filename):
                 print("Invalid literal in line:", ",".join(row))
     return cost
 
-cost = portfolio_cost("Data/portfolio.csv")
+if len(sys.argv) == 2:
+    filename = sys.argv[1]
+else:
+    filename = "Data/portfolio.csv"
+
+cost = portfolio_cost(filename)
 print("Total cost", round(cost, 2))
 
