@@ -4,7 +4,7 @@
 import csv
 
 def read_portfolio(filename):
-    """Read a portfolio into a list of tuples"""
+    """Read a portfolio into a list of (tuples) dictionaries"""
     # portfolio = []
 
     # with open(filename, "rt") as f:
@@ -26,3 +26,17 @@ def read_portfolio(filename):
             portfolio.append(holding)
 
     return portfolio
+
+def read_prices(filename):
+    """Read prices into dictionary with stock names as keys"""
+    prices = {}
+
+    with open(filename, "rt") as f:
+        rows = csv.reader(f)
+        try:
+            for row in rows:
+                prices[row[0]] = float(row[1])
+        except:
+            pass
+        
+    return prices
