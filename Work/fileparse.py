@@ -3,7 +3,7 @@
 # Exercise 3.3
 import csv
 
-def parse_csv(filename: str, select: list = []) -> "list[dict]":
+def parse_csv(filename: str, select: list = [], types: list = []) -> "list[dict]":
     """
     Parse a csv file into a list of records
     """
@@ -20,6 +20,8 @@ def parse_csv(filename: str, select: list = []) -> "list[dict]":
             # skip blank lines
             if not row:
                 continue
+            if types:
+                row = [func(val) for func, val in zip(types, row)]
             # exclude unselected entries
             row = [row[idx] for idx in indices]
             record = dict(zip(headers, row))
