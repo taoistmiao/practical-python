@@ -4,7 +4,7 @@
 import csv
 
 def read_portfolio(filename):
-    """Read a portfolio into a list of (tuples) dictionaries"""
+    """Read a portfolio into a list of (tuples) dictionaries (name, shares, price)"""
     # portfolio = []
 
     # with open(filename, "rt") as f:
@@ -38,5 +38,18 @@ def read_prices(filename):
                 prices[row[0]] = float(row[1])
         except:
             pass
-        
+
     return prices
+
+# Computes the gain or loss
+cost = 0
+value = 0
+portfolio = read_portfolio("Data/portfolio.csv")
+prices = read_prices("Data/prices.csv")
+for stock in portfolio:
+    cost += stock["shares"] * stock["price"]
+    value += stock["shares"] * prices[stock["name"]]
+if cost > value:
+    print(f"The loss is {cost-value}")
+else:
+    print(f"The gain is {value-cost}")
