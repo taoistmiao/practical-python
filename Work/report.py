@@ -41,20 +41,6 @@ def read_prices(filename):
 
     return prices
 
-def get_state():
-    # Computes the gain or loss
-    cost = 0
-    value = 0
-    portfolio = read_portfolio("Data/portfolio.csv")
-    prices = read_prices("Data/prices.csv")
-    for stock in portfolio:
-        cost += stock["shares"] * stock["price"]
-        value += stock["shares"] * prices[stock["name"]]
-    if cost > value:
-        print(f"The loss is {cost-value}")
-    else:
-        print(f"The gain is {value-cost}")
-
 def make_report(portfolio: "list[dict]", prices: dict) -> "list[tuple]":
     report_list = []
     for stock in portfolio:
@@ -67,3 +53,13 @@ def make_report(portfolio: "list[dict]", prices: dict) -> "list[tuple]":
         report_list.append(report)
 
     return report_list
+
+def show_report():
+    # Computes the gain or loss
+    cost = 0
+    value = 0
+    portfolio = read_portfolio("Data/portfolio.csv")
+    prices = read_prices("Data/prices.csv")
+    report = make_report(portfolio, prices)
+    for record in report:
+        print("{:>10s} {:>10d} {:>10.2f} {:10.2f}".format(*record))
