@@ -2,6 +2,7 @@
 #
 # Exercise 2.4
 import csv
+from os import sep
 
 def read_portfolio(filename):
     """Read a portfolio into a list of (tuples) dictionaries (name, shares, price)"""
@@ -55,11 +56,12 @@ def make_report(portfolio: "list[dict]", prices: dict) -> "list[tuple]":
     return report_list
 
 def show_report():
-    # Computes the gain or loss
-    cost = 0
-    value = 0
     portfolio = read_portfolio("Data/portfolio.csv")
     prices = read_prices("Data/prices.csv")
     report = make_report(portfolio, prices)
+    headers = ("Name", "Shares", "Price", "Change")
+    print("%10s %10s %10s %10s" % headers)
+    separator = "-" * 10
+    print(f"{separator} {separator} {separator} {separator}")
     for record in report:
         print("{:>10s} {:>10d} {:>10.2f} {:10.2f}".format(*record))
