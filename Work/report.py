@@ -63,5 +63,5 @@ def show_report():
     print("%10s %10s %10s %10s" % headers)
     separator = "-" * 10
     print(f"{separator} {separator} {separator} {separator}")
-    for record in report:
-        print("{:>10s} {:>10d} {:>10.2f} {:10.2f}".format(*record))
+    for name, shares, price, change in report:
+        print("{:>10s} {:>10d} {:>10s} {:>10s}".format(name, shares, f"${price:.2f}", f"${change:.2f}"))
