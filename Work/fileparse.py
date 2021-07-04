@@ -3,7 +3,7 @@
 # Exercise 3.3
 import csv
 
-def parse_csv(filename: str, select: list = [], types: list = [], has_headers: bool = True, delimiter: str = ",") -> "list[dict]":
+def parse_csv(filename: str, select: list = [], types: list = [], has_headers: bool = True, delimiter: str = ",", silence_errors: bool = False) -> "list[dict]":
     """
     Parse a csv file into a list of records
     """
@@ -27,8 +27,9 @@ def parse_csv(filename: str, select: list = [], types: list = [], has_headers: b
                 try:
                     row = [func(val) for func, val in zip(types, row)]
                 except ValueError as e:
-                    print(f"Row {line}: Couldn't convert {row}")
-                    print(f"Row {line}: Reason {e}")
+                    if not silence_errors:
+                        print(f"Row {line}: Couldn't convert {row}")
+                        print(f"Row {line}: Reason {e}")
                     continue
 
             # exclude unselected entries
