@@ -19,12 +19,18 @@ def parse_csv(filename: str, select: list = [], types: list = [], has_headers: b
                 headers = select
 
         records = []
-        for row in rows:
+        for line, row in enumerate(rows, start=1):
             # skip blank lines
             if not row:
                 continue
             if types:
-                row = [func(val) for func, val in zip(types, row)]
+                try:
+                    row = [func(val) for func, val in zip(types, row)]
+                except ValueError as e:
+                    print(f"Row {line}: Couldn't convert {row}")
+                    print(f"Row {line}: Reason {e}")
+                    continue
+
             # exclude unselected entries
             if has_headers:
                 if select:
