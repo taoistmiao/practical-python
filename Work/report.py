@@ -30,9 +30,9 @@ def make_report(portfolio: "list[dict]", prices: dict) -> "list[tuple]":
 
     return report_list
 
-def show_report():
-    portfolio = read_portfolio("Data/portfolio.csv")
-    prices = read_prices("Data/prices.csv")
+def show_report(portfolio_file, prices_file):
+    portfolio = read_portfolio(portfolio_file)
+    prices = read_prices(prices_file)
     report = make_report(portfolio, prices)
     headers = ("Name", "Shares", "Price", "Change")
     print("%10s %10s %10s %10s" % headers)
@@ -41,4 +41,12 @@ def show_report():
     for name, shares, price, change in report:
         print("{:>10s} {:>10d} {:>10s} {:>10s}".format(name, shares, f"${price:.2f}", f"${change:.2f}"))
 
-show_report()
+
+def main(args: list):
+    if len(args) != 3:
+        raise SystemExit('Usage: %s portfile pricefile' % args[0])
+    show_report(args[1], args[2])
+
+if __name__ == "__main__":
+    import sys
+    main(sys.argv)
