@@ -7,7 +7,7 @@ def parse_csv(filename: str, select: list = [], types: list = [], has_headers: b
     """
     Parse a csv file into a list of records
     """
-    if types and not has_headers:
+    if select and not has_headers:
         raise RuntimeError("select argument requires column headers")
     with open(filename, "rt") as f:
         rows = csv.reader(f, delimiter=delimiter)
