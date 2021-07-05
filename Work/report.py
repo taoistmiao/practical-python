@@ -3,45 +3,19 @@
 # Exercise 2.4
 import csv
 from os import sep
+from fileparse import parse_csv
 
 def read_portfolio(filename):
-    """Read a portfolio into a list of (tuples) dictionaries (name, shares, price)"""
-    # portfolio = []
-
-    # with open(filename, "rt") as f:
-    #     rows = csv.reader(f)
-    #     header = next(rows)
-    #     for row in rows:
-    #         holding = (row[0], int(row[1]), float(row[2]))
-    #         portfolio.append(holding)
-    portfolio = []
-
-    with open(filename, "rt") as f:
-        rows = csv.reader(f)
-        header = next(rows)
-        for row in rows:
-            record = dict(zip(header, row))
-            holding = {}
-            holding["name"] = record["name"]
-            holding["shares"] = int(record["shares"])
-            holding["price"] = float(record["price"])
-            portfolio.append(holding)
+    """Read a portfolio into a list dictionaries (name, shares, price)"""
+    portfolio = parse_csv(filename, select=['name','shares','price'], types=[str,int,float])
 
     return portfolio
 
 def read_prices(filename):
     """Read prices into dictionary with stock names as keys"""
-    prices = {}
+    prices = parse_csv(filename, types=[str, float], has_headers=False)
 
-    with open(filename, "rt") as f:
-        rows = csv.reader(f)
-        try:
-            for row in rows:
-                prices[row[0]] = float(row[1])
-        except:
-            pass
-
-    return prices
+    return dict(prices)
 
 def make_report(portfolio: "list[dict]", prices: dict) -> "list[tuple]":
     report_list = []
