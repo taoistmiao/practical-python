@@ -1,23 +1,17 @@
 # pcost.py
 #
 # Exercise 1.27
-import csv
+# import csv
+from os import read
 import sys
+from report import read_portfolio
 
 def portfolio_cost(filename):
-
     cost = 0
-    with open(filename, "rt") as f:
-        rows = csv.reader(f)
-        header = next(rows) # skip header
-        for line, row in enumerate(rows, start=1):
-            record = dict(zip(header, row))
-            try:
-                shares = int(record["shares"])
-                price = float(record["price"])
-                cost += shares * price
-            except ValueError:
-                print(f"Line {line}: Couldn't convert: {row}")
+    portfolio = read_portfolio(filename)
+    for record in portfolio:
+        cost += record["shares"] * record["price"]
+
     return cost
 
 if len(sys.argv) == 2:
