@@ -23,6 +23,11 @@ def parse_csv(filename: str, select: list = [], types: list = [], has_headers: b
             # skip blank lines
             if not row:
                 continue
+
+            # exclude unselected entries
+            if select:
+                row = [row[idx] for idx in indices]
+                
             if types:
                 try:
                     row = [func(val) for func, val in zip(types, row)]
@@ -32,13 +37,7 @@ def parse_csv(filename: str, select: list = [], types: list = [], has_headers: b
                         print(f"Row {line}: Reason {e}")
                     continue
 
-            # exclude unselected entries
-            if has_headers:
-                if select:
-                    row = [row[idx] for idx in indices]
-                record = dict(zip(headers, row))
-            else:
-                record = tuple(row)
-            records.append(record)
+            record = dict(zip(headers, row)) if has_headers else tuple(row)
+            records.append(record)            
 
     return records
