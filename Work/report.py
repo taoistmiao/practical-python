@@ -6,6 +6,7 @@ import csv
 from os import sep
 from fileparse import parse_csv
 import stock as stk
+import tableformat
 
 def read_portfolio(filename):
     """Read a portfolio into a list dictionaries (name, shares, price)"""
@@ -39,12 +40,13 @@ def show_report(portfolio_file, prices_file):
     portfolio = read_portfolio(portfolio_file)
     prices = read_prices(prices_file)
     report = make_report(portfolio, prices)
-    headers = ("Name", "Shares", "Price", "Change")
-    print("%10s %10s %10s %10s" % headers)
-    separator = "-" * 10
-    print(f"{separator} {separator} {separator} {separator}")
+    formatter = tableformat.create_formatter("txt")
+
+    headers = ["Name", "Shares", "Price", "Change"]
+    formatter.headings(headers)
     for name, shares, price, change in report:
-        print("{:>10s} {:>10d} {:>10s} {:>10s}".format(name, shares, f"${price:.2f}", f"${change:.2f}"))
+        row_data = [name, str(shares), f"${price:.2f}", f"${change:.2f}"]
+        formatter.row(row_data)
 
 
 def main(args: list):
