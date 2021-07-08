@@ -36,11 +36,11 @@ def make_report(portfolio: "list[stk.Stock]", prices: dict) -> "list[tuple]":
 
     return report_list
 
-def show_report(portfolio_file, prices_file):
+def show_report(portfolio_file, prices_file, format):
     portfolio = read_portfolio(portfolio_file)
     prices = read_prices(prices_file)
     report = make_report(portfolio, prices)
-    formatter = tableformat.create_formatter("txt")
+    formatter = tableformat.create_formatter(format)
 
     headers = ["Name", "Shares", "Price", "Change"]
     formatter.headings(headers)
@@ -50,9 +50,9 @@ def show_report(portfolio_file, prices_file):
 
 
 def main(args: list):
-    if len(args) != 3:
-        raise SystemExit('Usage: %s portfile pricefile' % args[0])
-    show_report(args[1], args[2])
+    if len(args) != 4:
+        raise SystemExit('Usage: %s portfile pricefile format' % args[0])
+    show_report(args[1], args[2], args[3])
 
 if __name__ == "__main__":
     import sys
