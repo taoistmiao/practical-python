@@ -5,11 +5,13 @@
 import csv
 from os import sep
 from fileparse import parse_csv
+import stock as stk
 
 def read_portfolio(filename):
     """Read a portfolio into a list dictionaries (name, shares, price)"""
     with open(filename, "rt") as f:
-        portfolio = parse_csv(f, select=['name','shares','price'], types=[str,int,float])
+        portfolio_dict = parse_csv(f, select=['name','shares','price'], types=[str,int,float])
+        portfolio = [stk.Stock(d['name'], d['shares'], d['price']) for d in portfolio_dict]
 
     return portfolio
 
@@ -20,14 +22,14 @@ def read_prices(filename):
 
     return dict(prices)
 
-def make_report(portfolio: "list[dict]", prices: dict) -> "list[tuple]":
+def make_report(portfolio: "list[stk.Stock]", prices: dict) -> "list[tuple]":
     report_list = []
     for stock in portfolio:
         report = (
-            stock["name"], 
-            stock["shares"], 
-            prices[stock["name"]], 
-            prices[stock["name"]]-stock["price"]
+            stock.name,
+            stock.shares,
+            prices[stock.name],
+            prices[stock.name]-stock.price
             )
         report_list.append(report)
 

@@ -9,7 +9,7 @@ def portfolio_cost(filename):
     cost = 0
     portfolio = read_portfolio(filename)
     for record in portfolio:
-        cost += record["shares"] * record["price"]
+        cost += record.shares * record.price
 
     return cost
 
